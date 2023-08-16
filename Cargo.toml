@@ -1,0 +1,11 @@
+[workspace]
+members = [
+  "3Sum",
+  "Group Anagrams",
+  "Longest Substring Without Repeating Characters",
+  "Set Matrix Zeroes",
+]
+
+[workspace.package]
+license-file = "LICENSE"
+authors = ["Evgeniy Malyutin <evxn@users.noreply.github.com>"]
