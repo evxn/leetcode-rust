@@ -4,14 +4,14 @@ pub struct Solution;
 
 impl Solution {
     pub fn length_of_longest_substring(s: String) -> i32 {
-        let mut current_substring: Vec<char> = Vec::with_capacity(s.len());
+        let mut current_substring: Vec<u8> = Vec::with_capacity(s.len());
         let mut max_length = 0;
 
-        for ch in s.chars() {
-            if let Some(pos) = current_substring.iter().position(|el| el == &ch) {
+        for byte in s.bytes() {
+            if let Some(pos) = current_substring.iter().position(|el| el == &byte) {
                 current_substring.drain(0..=pos);
             }
-            current_substring.push(ch);
+            current_substring.push(byte);
             max_length = std::cmp::max(current_substring.len(), max_length);
         }
 
