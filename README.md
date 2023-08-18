@@ -3,7 +3,7 @@ Solutions to [leetcode](https://leetcode.com/) problems written in [rust](https:
 
 # Run
 
-Each solution is a `lib` crate. To test all the solutions at once run this shell command in the root folder:
+Each solution is a `lib` crate. To test all the solutions at once run this shell command in the repo folder:
 
 ```sh
 $ cargo test
