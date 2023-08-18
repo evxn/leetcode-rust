@@ -7,6 +7,7 @@ members = [
   "Longest Palindromic Substring",
   "Increasing Triplet Subsequence",
   "Count and Say",
+  "Add Two Numbers",
 ]
 
 [workspace.package]
