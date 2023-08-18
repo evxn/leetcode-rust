@@ -4,7 +4,8 @@ members = [
   "Group Anagrams",
   "Longest Substring Without Repeating Characters",
   "Set Matrix Zeroes",
-  "Longest Palindromic Substring"
+  "Longest Palindromic Substring",
+  "Increasing Triplet Subsequence"
 ]
 
 [workspace.package]
