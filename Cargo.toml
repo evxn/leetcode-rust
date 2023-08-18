@@ -5,7 +5,8 @@ members = [
   "Longest Substring Without Repeating Characters",
   "Set Matrix Zeroes",
   "Longest Palindromic Substring",
-  "Increasing Triplet Subsequence"
+  "Increasing Triplet Subsequence",
+  "Count and Say",
 ]
 
 [workspace.package]
