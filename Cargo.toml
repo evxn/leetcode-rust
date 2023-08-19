@@ -8,6 +8,7 @@ members = [
   "Increasing Triplet Subsequence",
   "Count and Say",
   "Add Two Numbers",
+  "Odd Even Linked List",
 ]
 
 [workspace.package]
