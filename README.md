@@ -24,3 +24,4 @@ To test an individual solution go to its corresponding folder and execute the sa
 |  [Longest Substring Without Repeating Characters](Longest%20Substring%20Without%20Repeating%20Characters/src/lib.rs) | Strings |
 |  [Odd Even Linked List](Odd%20Even%20Linked%20List/src/lib.rs) |  Linked Lists |
 | [Add Two Numbers](Add%20Two%20Numbers/src/lib.rs) | Linked Lists |
+| [Binary Tree Inorder Traversal](Binary%20Tree%20Inorder%20Traversal/src/lib.rs) | Binary Trees |
