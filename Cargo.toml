@@ -9,6 +9,7 @@ members = [
   "Count and Say",
   "Add Two Numbers",
   "Odd Even Linked List",
+  "Binary Tree Inorder Traversal",
 ]
 
 [workspace.package]
