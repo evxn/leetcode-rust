@@ -25,3 +25,4 @@ To test an individual solution go to its corresponding folder and execute the sa
 |  [Odd Even Linked List](Odd%20Even%20Linked%20List/src/lib.rs) |  Linked Lists |
 | [Add Two Numbers](Add%20Two%20Numbers/src/lib.rs) | Linked Lists |
 | [Binary Tree Inorder Traversal](Binary%20Tree%20Inorder%20Traversal/src/lib.rs) | Binary Trees |
+| [Number of Islands](Number%20of%20Islands/src/lib.rs) | Graphs |
