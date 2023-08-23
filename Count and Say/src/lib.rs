@@ -2,7 +2,7 @@
 
 pub struct Solution;
 
-struct CountedPair {
+struct CountedDigit {
     count: i32,
     digit: char,
 }
@@ -12,7 +12,7 @@ impl Solution {
         let mut result = 1.to_string();
 
         for _ in 2..=n {
-            let pairs = Solution::to_counted_pairs(&result);
+            let pairs = Solution::to_counted_digits(&result);
             result = Solution::to_number(&pairs);
         }
 
@@ -20,15 +20,15 @@ impl Solution {
     }
 
     /// A helper function that maps a str slice of digits
-    /// to pairs of its digits and their frequencies.
+    /// to pairs of the digits and their frequencies.
     ///
     /// For example, if you call this function with "22444",
     /// then it maps it to
-    /// vec![CountedPair {count: 2, digit: '2'}, CountedPair {count: 3, digit: '4'}].
+    /// vec![CountedDigit {count: 2, digit: '2'}, CountedDigit {count: 3, digit: '4'}].
     ///
     /// # Panics
     /// Panics when digits.len() < 1
-    fn to_counted_pairs(digits: &str) -> Vec<CountedPair> {
+    fn to_counted_digits(digits: &str) -> Vec<CountedDigit> {
         let mut res = Vec::new();
 
         let mut prev_digit = digits.chars().next().unwrap();
@@ -36,7 +36,7 @@ impl Solution {
 
         for current_digit in digits.chars() {
             if current_digit != prev_digit {
-                res.push(CountedPair {
+                res.push(CountedDigit {
                     count,
                     digit: prev_digit,
                 });
@@ -45,7 +45,7 @@ impl Solution {
             prev_digit = current_digit;
             count += 1;
         }
-        res.push(CountedPair {
+        res.push(CountedDigit {
             count,
             digit: prev_digit,
         });
@@ -53,10 +53,10 @@ impl Solution {
         res
     }
 
-    fn to_number(pairs: &[CountedPair]) -> String {
+    fn to_number(pairs: &[CountedDigit]) -> String {
         pairs.iter().fold(
             String::with_capacity(pairs.len() * 2),
-            |acc, CountedPair { count, digit }| format!("{}{}{}", acc, count, digit),
+            |acc, CountedDigit { count, digit }| format!("{}{}{}", acc, count, digit),
         )
     }
 }
