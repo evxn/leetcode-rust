@@ -37,8 +37,10 @@ impl Solution {
         }
 
         // zero the first col
-        // note: for some reason it's faster to do it here separately
+        // note:  for some reason it's faster to do it here separately
         // instead of in the main rows zeroing loop
+        // take this with a grain of salt since I haven't checked the generated asm
+        // just benchmarked it on the leetcode
         if matrix[0][0] == 0 {
             for i in 1..m {
                 matrix[i][0] = 0;
