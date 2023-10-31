@@ -19,10 +19,12 @@ pub struct Solution;
 
 impl Solution {
     pub fn odd_even_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        // case list.len() <= 1
         if head.is_none() || head.as_ref().unwrap().next.is_none() {
             return head;
         }
 
+        // case list.len() > 1
         let (mut odd, mut even) = (None, None);
         let (mut next_odd, mut next_even) = (&mut odd, &mut even);
 
@@ -87,6 +89,13 @@ mod tests {
         assert_eq!(
             Solution::odd_even_list(ListNode::from_vec(vec![])),
             ListNode::from_vec(vec![])
+        );
+    }
+    #[test]
+    fn example5() {
+        assert_eq!(
+            Solution::odd_even_list(ListNode::from_vec(vec![1, 2])),
+            ListNode::from_vec(vec![1, 2])
         );
     }
 }
