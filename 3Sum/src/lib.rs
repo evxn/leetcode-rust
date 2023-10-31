@@ -61,8 +61,8 @@ mod tests {
 
     #[test]
     fn one_result() {
-        let res = Solution::three_sum(vec![0, 0, 0]);
-        assert_eq_unordered(res, vec![vec![0, 0, 0]]);
+        let res = Solution::three_sum(vec![-1, 0, 1]);
+        assert_eq_unordered(res, vec![vec![-1, 0, 1]]);
     }
 
     #[test]
