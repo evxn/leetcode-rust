@@ -25,8 +25,8 @@ impl Solution {
         }
 
         // case list.len() > 1
-        let (mut odd, mut even) = (None, None);
-        let (mut next_odd, mut next_even) = (&mut odd, &mut even);
+        let (mut odd_head, mut even_head) = (None, None);
+        let (mut next_odd, mut next_even) = (&mut odd_head, &mut even_head);
 
         let mut is_odd = true;
 
@@ -44,9 +44,9 @@ impl Solution {
         }
 
         // note: unwrap is safe bacause of the guard on head.next
-        let _ = next_odd.insert(even.unwrap());
+        let _ = next_odd.insert(even_head.unwrap());
 
-        odd
+        odd_head
     }
 }
 
