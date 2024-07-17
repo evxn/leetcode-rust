@@ -15,15 +15,15 @@ To test an individual solution go to its corresponding folder and execute the sa
 
 |    Problem    | Category |
 | ------------- | -------- |
-| [328. Odd Even Linked List](328-odd-even-linked-list/src/lib.rs) |  Linked List |
-| [2. Add Two Numbers](2-add-two-numbers/src/lib.rs) | Linked List |
+| [328. Odd Even Linked List](328-odd-even-linked-list/src/lib.rs) |  LinkedList |
+| [2. Add Two Numbers](2-add-two-numbers/src/lib.rs) | LinkedList |
 | [49. Group Anagrams](49-group-anagrams/src/lib.rs) | String, BTree, HashMap |
 | [5. Longest Palindromic Substring](5-longest-palindromic-substring/src/lib.rs) | String |
 | [3. Longest Substring Without Repeating Characters](3-longest-substring-without-repeating-characters/src/lib.rs) | String |
-| [94. Binary Tree Inorder Traversal](94-binary-tree-inorder-traversal/src/lib.rs) | Binary Tree |
+| [94. Binary Tree Inorder Traversal](94-binary-tree-inorder-traversal/src/lib.rs) | BinarySearchTree |
 | [200. Number of Islands](200-number-of-islands/src/lib.rs) | Graph |
 | [15. 3Sum](15-three-sum/src/lib.rs)       | Array |
 | [38. Count and Say](38-count-and-say/src/lib.rs) | Array |
 | [73. Set Matrix Zeroes](73-set-matrix-zeroes/src/lib.rs) | Array |
 | [334. Increasing Triplet Subsequence](334-increasing-triplet-subsequence/src/lib.rs) |  Array |
-| [347. Top K Frequent Elements](347-top-k-frequent-elements/src/lib.rs) | Array, HashMap, Bucket Sort |
+| [347. Top K Frequent Elements](347-top-k-frequent-elements/src/lib.rs) | Array, HashMap, BucketSort |
