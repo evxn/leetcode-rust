@@ -3,11 +3,13 @@
 pub struct Solution;
 
 impl Solution {
+    // O(n²)
     pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
         use std::{cmp::Ordering, collections::HashSet};
 
         let len = nums.len();
 
+        // O(n)
         if len == 3 {
             if nums.iter().sum::<i32>() == 0 {
                 return vec![nums];
@@ -16,10 +18,11 @@ impl Solution {
             }
         }
 
-        nums.sort_unstable();
+        nums.sort_unstable(); // O(nlogn)
 
         let mut res = HashSet::<Vec<i32>>::with_capacity(len / 3);
 
+        // O(n²)
         for left in 0..len - 2 {
             let mut middle = left + 1;
             let mut right = len - 1;
@@ -38,6 +41,7 @@ impl Solution {
             }
         }
 
+        // O(n)
         res.into_iter().collect()
     }
 }
