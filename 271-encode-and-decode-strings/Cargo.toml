@@ -5,7 +5,4 @@ edition = "2021"
 license-file.workspace = true
 authors.workspace = true
 
-[lib]
-doctest = false
-
 [dependencies]
