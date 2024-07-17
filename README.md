@@ -14,15 +14,16 @@ To test an individual solution go to its corresponding folder and execute the sa
 # Table of Contents
 
 |    Problem    | Category |
-| ------------- | --------|
-|  [Odd Even Linked List](Odd%20Even%20Linked%20List/src/lib.rs) |  Linked Lists |
-| [Add Two Numbers](Add%20Two%20Numbers/src/lib.rs) | Linked Lists |
-| [Group Anagrams](Group%20Anagrams/src/lib.rs) | Strings |
-| [Longest Palindromic Substring](Longest%20Palindromic%20Substring/src/lib.rs) | Strings |
-|  [Longest Substring Without Repeating Characters](Longest%20Substring%20Without%20Repeating%20Characters/src/lib.rs) | Strings |
-| [Binary Tree Inorder Traversal](Binary%20Tree%20Inorder%20Traversal/src/lib.rs) | Binary Trees |
-| [Number of Islands](Number%20of%20Islands/src/lib.rs) | Graphs |
-| [3Sum](3Sum/src/lib.rs)       | Arrays |
-| [Count and Say](Count%20and%20Say/src/lib.rs) | Arrays |
-| [Set Matrix Zeroes](Set%20Matrix%20Zeroes/src/lib.rs) | Arrays |
-| [Increasing Triplet Subsequence](Increasing%20Triplet%20Subsequence/src/lib.rs) |  Arrays |
+| ------------- | -------- |
+| [328. Odd Even Linked List](328-odd-even-linked-list/src/lib.rs) |  Linked Lists |
+| [2. Add Two Numbers](2-add-two-numbers/src/lib.rs) | Linked Lists |
+| [49. Group Anagrams](49-group-anagrams/src/lib.rs) | Strings |
+| [5. Longest Palindromic Substring](5-longest-palindromic-substring/src/lib.rs) | Strings |
+| [3. Longest Substring Without Repeating Characters](3-longest-substring-without-repeating-characters/src/lib.rs) | Strings |
+| [94. Binary Tree Inorder Traversal](94-binary-tree-inorder-traversal/src/lib.rs) | Binary Trees |
+| [200. Number of Islands](200-number-of-islands/src/lib.rs) | Graphs |
+| [15. 3Sum](15-three-sum/src/lib.rs)       | Arrays |
+| [38. Count and Say](38-count-and-say/src/lib.rs) | Arrays |
+| [73. Set Matrix Zeroes](73-set-matrix-zeroes/src/lib.rs) | Arrays |
+| [334. Increasing Triplet Subsequence](334-increasing-triplet-subsequence/src/lib.rs) |  Arrays |
+| [347. Top K Frequent Elements](347-top-k-frequent-elements/src/lib.rs) |  |
