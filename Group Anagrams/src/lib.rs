@@ -4,17 +4,18 @@ pub struct Solution;
 
 impl Solution {
     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
-        use std::collections::HashMap;
+        use std::collections::{BTreeMap, HashMap};
 
-        let mut res: HashMap<String, Vec<String>> = HashMap::new();
+        let mut res: HashMap<BTreeMap<char, u8>, Vec<String>> = HashMap::new();
 
-        strs.into_iter().for_each(|string| {
-            let mut chars = string.chars().collect::<Vec<_>>();
-            chars.sort_unstable();
+        strs.into_iter().for_each(|word| {
+            let mut key: BTreeMap<char, u8> = BTreeMap::new();
 
-            let key = chars.iter().cloned().collect::<String>();
+            for ch in word.chars() {
+                key.entry(ch).and_modify(|count| *count += 1).or_insert(1);
+            }
 
-            res.entry(key).or_insert(vec![]).push(string);
+            res.entry(key).or_insert(vec![]).push(word);
         });
 
         res.into_values().collect()
