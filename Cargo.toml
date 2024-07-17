@@ -13,6 +13,7 @@ members = [
   "94-binary-tree-inorder-traversal",
   "200-number-of-islands",
   "347-top-k-frequent-elements",
+  "271-encode-and-decode-strings",
 ]
 
 [workspace.package]

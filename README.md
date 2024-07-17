@@ -27,3 +27,4 @@ To test an individual solution go to its corresponding folder and execute the sa
 | [73. Set Matrix Zeroes](73-set-matrix-zeroes/src/lib.rs) | Array |
 | [334. Increasing Triplet Subsequence](334-increasing-triplet-subsequence/src/lib.rs) |  Array |
 | [347. Top K Frequent Elements](347-top-k-frequent-elements/src/lib.rs) | Array, HashMap, BucketSort |
+| [271. Encode and Decode Strings](271-encode-and-decode-strings/src/lib.rs) | String, Design |
