@@ -1,17 +1,18 @@
 [workspace]
 resolver = "2"
 members = [
-  "3Sum",
-  "Group Anagrams",
-  "Longest Substring Without Repeating Characters",
-  "Set Matrix Zeroes",
-  "Longest Palindromic Substring",
-  "Increasing Triplet Subsequence",
-  "Count and Say",
-  "Add Two Numbers",
-  "Odd Even Linked List",
-  "Binary Tree Inorder Traversal",
-  "Number of Islands",
+  "15-three-sum",
+  "49-group-anagrams",
+  "3-longest-substring-without-repeating-characters",
+  "73-set-matrix-zeroes",
+  "5-longest-palindromic-substring",
+  "334-increasing-triplet-subsequence",
+  "38-count-and-say",
+  "2-add-two-numbers",
+  "328-odd-even-linked-list",
+  "94-binary-tree-inorder-traversal",
+  "200-number-of-islands",
+  "347-top-k-frequent-elements",
 ]
 
 [workspace.package]
