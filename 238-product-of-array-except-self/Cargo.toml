@@ -1,8 +1,11 @@
 [package]
-name = "encode_and_decode_strings"
+name = "product_of_array_except_self"
 version = "0.1.0"
 edition = "2021"
 license-file.workspace = true
 authors.workspace = true
+
+[lib]
+doctest = false
 
 [dependencies]
