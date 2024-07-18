@@ -8,7 +8,7 @@ impl Solution {
         use std::collections::HashMap;
 
         // worst space: O(n)
-        let mut num_count: HashMap<i32, usize> = HashMap::new();
+        let mut num_count = HashMap::new();
         // time: O(n)
         for &n in &nums {
             num_count
