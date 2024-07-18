@@ -16,6 +16,7 @@ members = [
   "271-encode-and-decode-strings",
   "238-product-of-array-except-self",
   "36-valid-sudoku",
+  "128-longest-consecutive-sequence",
 ]
 
 [workspace.package]
