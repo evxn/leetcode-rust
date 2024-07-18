@@ -31,3 +31,4 @@ To test an individual solution go to its corresponding folder and execute the sa
 | [73. Set Matrix Zeroes](73-set-matrix-zeroes/src/lib.rs)                                                         | Array                      |
 | [334. Increasing Triplet Subsequence](334-increasing-triplet-subsequence/src/lib.rs)                             | Array                      |
 | [36. Valid Sudoku](36-valid-sudoku/src/lib.rs)                                                                   | Array, HashMap             |
+| [128. Longest Consecutive Sequence](128-longest-consecutive-sequence/src/lib.rs)                                 | Array, HashMap             |
