@@ -17,6 +17,7 @@ members = [
   "238-product-of-array-except-self",
   "36-valid-sudoku",
   "128-longest-consecutive-sequence",
+  "42-trapping-rain-water",
 ]
 
 [workspace.package]
