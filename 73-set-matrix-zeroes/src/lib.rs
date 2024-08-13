@@ -3,6 +3,7 @@
 pub struct Solution;
 
 impl Solution {
+    #[allow(clippy::needless_range_loop, clippy::ptr_arg)]
     pub fn set_zeroes(matrix: &mut Vec<Vec<i32>>) {
         let m = matrix.len();
         let n = matrix[0].len();

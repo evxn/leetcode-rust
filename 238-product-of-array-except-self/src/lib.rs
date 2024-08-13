@@ -10,7 +10,7 @@ impl Solution {
     // Note that a single function is used to compute both prefix
     // and postfix partial products. And a direction of a single pass
     // is expressed with standard `fold` and `rfold` iterator methods.
-    // Time: O(n); Space: O(n)
+    // Time: O(n); Memory: O(n)
     pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
         let nums = std::sync::Arc::new(nums);
 
@@ -37,7 +37,7 @@ impl Solution {
 
         products_before_elem
             .into_iter()
-            .zip(products_after_elem.into_iter())
+            .zip(products_after_elem)
             .map(|(product_before, product_after)| product_before * product_after)
             .collect()
     }

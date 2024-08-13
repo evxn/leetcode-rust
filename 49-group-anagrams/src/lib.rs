@@ -15,7 +15,7 @@ impl Solution {
                 key.entry(ch).and_modify(|count| *count += 1).or_insert(1);
             }
 
-            res.entry(key).or_insert(vec![]).push(word);
+            res.entry(key).or_default().push(word);
         });
 
         res.into_values().collect()
@@ -53,7 +53,7 @@ mod tests {
         assert_eq!(res.len(), target.len());
 
         target.iter().for_each(|group| {
-            assert!(res.contains(&group));
+            assert!(res.contains(group));
         });
     }
 
@@ -76,7 +76,7 @@ mod tests {
         assert_eq!(res.len(), target.len());
 
         target.iter().for_each(|group| {
-            assert!(res.contains(&group));
+            assert!(res.contains(group));
         });
     }
 
@@ -99,7 +99,7 @@ mod tests {
         assert_eq!(res.len(), target.len());
 
         target.iter().for_each(|group| {
-            assert!(res.contains(&group));
+            assert!(res.contains(group));
         });
     }
 }

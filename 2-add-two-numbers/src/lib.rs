@@ -40,7 +40,7 @@ impl Solution {
             })
             .map(CarriedDigit::AddedDigits)
             // add one element to the end of the sequence for a possible final carry
-            .chain(Some(CarriedDigit::FinalCarry).into_iter())
+            .chain(Some(CarriedDigit::FinalCarry))
             // perform carry over to the next element
             .scan(0, |carry, carried_digits| match carried_digits {
                 CarriedDigit::AddedDigits(added_digits) => {
@@ -73,6 +73,7 @@ impl Iterator for ListNodeIterator {
     fn next(&mut self) -> Option<Self::Item> {
         let next = self.0.next.take();
 
+        #[allow(clippy::question_mark)]
         if next.is_none() {
             return None;
         }
@@ -109,7 +110,7 @@ impl FromIterator<i32> for Box<ListNode> {
 
         let mut next_node = &mut wrapper_list.next;
 
-        while let Some(x) = iter.next() {
+        for x in iter {
             let list = Box::new(ListNode::new(x));
             next_node = &mut next_node.insert(list).next;
         }

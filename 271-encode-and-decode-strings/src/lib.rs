@@ -1,6 +1,7 @@
 pub struct Codec {}
 
 impl Codec {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {}
     }

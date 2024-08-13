@@ -11,6 +11,7 @@ impl Solution {
         let mut col_sets = vec![HashSet::new(); 9];
 
         for i in 0..9 {
+            #[allow(clippy::needless_range_loop)]
             for j in 0..9 {
                 match board[i][j] {
                     '.' => {
