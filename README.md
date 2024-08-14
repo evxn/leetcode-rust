@@ -21,6 +21,7 @@ To test an individual solution go to its corresponding folder and execute the sa
 | [347. Top K Frequent Elements](347-top-k-frequent-elements/src/lib.rs)                                           | Array, HashMap, BucketSort |
 | [328. Odd Even Linked List](328-odd-even-linked-list/src/lib.rs)                                                 | LinkedList                 |
 | [2. Add Two Numbers](2-add-two-numbers/src/lib.rs)                                                               | LinkedList                 |
+| [146. LRU Cache](146-lru-cache/src/lib.rs)                                                                       | LinkedList, HashMap        |
 | [49. Group Anagrams](49-group-anagrams/src/lib.rs)                                                               | String, BTree, HashMap     |
 | [5. Longest Palindromic Substring](5-longest-palindromic-substring/src/lib.rs)                                   | String                     |
 | [3. Longest Substring Without Repeating Characters](3-longest-substring-without-repeating-characters/src/lib.rs) | String                     |
