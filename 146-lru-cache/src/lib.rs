@@ -1,13 +1,13 @@
-use std::{cell::RefCell, collections::HashMap, ptr::NonNull, rc::Rc};
+#![allow(dead_code)]
 
-#[derive(Clone)]
+use std::{cell::RefCell, collections::HashMap, ptr::NonNull};
+
 struct LinkedList<T> {
     head: Option<NonNull<Node<T>>>,
     tail: Option<NonNull<Node<T>>>,
     len: usize,
 }
 
-#[derive(Clone)]
 struct Node<T> {
     next: Option<NonNull<Node<T>>>,
     prev: Option<NonNull<Node<T>>>,
@@ -24,7 +24,7 @@ impl<T> Node<T> {
     }
 }
 
-impl<T: Clone> LinkedList<T> {
+impl<T> LinkedList<T> {
     fn new() -> Self {
         Self {
             head: None,
@@ -35,14 +35,6 @@ impl<T: Clone> LinkedList<T> {
 
     fn len(&self) -> usize {
         self.len
-    }
-
-    fn front(&self) -> Option<&T> {
-        unsafe { self.head.as_ref().map(|node| &node.as_ref().elem) }
-    }
-
-    fn back(&self) -> Option<&T> {
-        unsafe { self.tail.as_ref().map(|node| &node.as_ref().elem) }
     }
 
     unsafe fn push_back_node(&mut self, node: NonNull<Node<T>>) -> NonNull<Node<T>> {
@@ -72,52 +64,6 @@ impl<T: Clone> LinkedList<T> {
         let node_ptr = NonNull::new(node).unwrap();
         // SAFETY: node_ptr is a unique pointer to a node we boxed and leaked
         unsafe { self.push_back_node(node_ptr) }
-    }
-
-    fn pop_back_node(&mut self) -> Option<Box<Node<T>>> {
-        // This method takes care not to create mutable references to whole nodes,
-        // to maintain validity of aliasing pointers into `element`.
-        self.tail.map(|node| unsafe {
-            let node = Box::from_raw(node.as_ptr());
-            self.tail = node.prev;
-
-            match self.tail {
-                None => self.head = None,
-                // Not creating new mutable (unique!) references overlapping `element`.
-                Some(tail) => (*tail.as_ptr()).next = None,
-            }
-
-            self.len -= 1;
-            node
-        })
-    }
-
-    unsafe fn push_front_node(&mut self, node: NonNull<Node<T>>) {
-        // This method takes care not to create mutable references to whole nodes,
-        // to maintain validity of aliasing pointers into `element`.
-        unsafe {
-            (*node.as_ptr()).next = self.head;
-            (*node.as_ptr()).prev = None;
-            let node = Some(node);
-
-            match self.head {
-                None => self.tail = node,
-                // Not creating new mutable (unique!) references overlapping `element`.
-                Some(head) => (*head.as_ptr()).prev = node,
-            }
-
-            self.head = node;
-            self.len += 1;
-        }
-    }
-
-    fn push_front(&mut self, elt: T) {
-        let node = Box::new(Node::new(elt));
-        let node_ptr = NonNull::from(Box::leak(node));
-        // SAFETY: node_ptr is a unique pointer to a node we boxed with self.alloc and leaked
-        unsafe {
-            self.push_front_node(node_ptr);
-        }
     }
 
     fn pop_front_node(&mut self) -> Option<Box<Node<T>>> {
@@ -179,8 +125,8 @@ type Val = i32;
 
 pub struct LRUCache {
     capacity: usize,
-    cache: HashMap<Key, NonNull<Node<(Key, Val)>>>,
-    lru_order: LinkedList<(Key, Val)>,
+    cache: RefCell<HashMap<Key, NonNull<Node<(Key, Val)>>>>,
+    lru_order: RefCell<LinkedList<(Key, Val)>>,
 }
 
 /**
@@ -192,38 +138,39 @@ impl LRUCache {
         let capacity = capacity.try_into().unwrap();
         Self {
             capacity,
-            cache: HashMap::with_capacity(capacity),
-            lru_order: LinkedList::new(),
+            cache: RefCell::new(HashMap::with_capacity(capacity)),
+            lru_order: RefCell::new(LinkedList::new()),
         }
     }
 
-    fn get(&mut self, key: i32) -> i32 {
-        match self.cache.get_mut(&key) {
-            Some(node) => {
-                // we got exclusive ref here;
+    fn get(&self, key: i32) -> i32 {
+        match self.cache.borrow().get(&key) {
+            Some(&node) => {
+                // move accessed element to the back of the list
+                let node = unsafe { self.lru_order.borrow_mut().unlink_node(node) };
+                let node = unsafe { self.lru_order.borrow_mut().push_back_node(node) };
+
                 let (_, val) = unsafe { node.as_ref().elem };
-
-                let mut lru_order = self.lru_order.clone();
-                let node = unsafe { lru_order.unlink_node(node.clone()) };
-                let _node = unsafe { lru_order.push_back_node(node) };
-                self.lru_order = lru_order;
-
                 val
             }
             None => -1,
         }
     }
 
-    fn put(&mut self, key: i32, value: i32) {
-        let node = self.lru_order.push_back((key, value));
+    fn put(&self, key: i32, value: i32) {
+        let mut lru_order = self.lru_order.borrow_mut();
+        let mut cache = self.cache.borrow_mut();
 
-        if let Some(old_node) = self.cache.insert(key, node) {
-            self.lru_order.remove_node(old_node);
+        let node = lru_order.push_back((key, value));
+
+        if let Some(old_node) = cache.insert(key, node) {
+            lru_order.remove_node(old_node);
         }
 
-        if self.capacity < self.lru_order.len() {
-            if let Some((least_recently_used_key, _)) = self.lru_order.pop_front() {
-                self.cache.remove(&least_recently_used_key);
+        if self.capacity < lru_order.len() {
+            // evict least recently used item from the front of the list
+            if let Some((least_recently_used_key, _)) = lru_order.pop_front() {
+                cache.remove(&least_recently_used_key);
             }
         }
     }
@@ -285,7 +232,7 @@ mod tests {
 
     #[test]
     fn example1() {
-        let mut lru_cache = LRUCache::new(2);
+        let lru_cache = LRUCache::new(2);
         lru_cache.put(1, 1); // cache is {1=1}
         lru_cache.put(2, 2); // cache is {1=1, 2=2}
         assert_eq!(lru_cache.get(1), 1);
