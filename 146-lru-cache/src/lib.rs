@@ -2,6 +2,62 @@
 
 use std::{cell::RefCell, collections::HashMap, ptr::NonNull};
 
+type Key = i32;
+type Val = i32;
+
+pub struct LRUCache {
+    capacity: usize,
+    cache: RefCell<HashMap<Key, NonNull<Node<(Key, Val)>>>>,
+    lru_order: RefCell<LinkedList<(Key, Val)>>,
+}
+
+/**
+ * `&self` means the method takes an immutable reference.
+ * If you need a mutable reference, change it to `&mut self` instead.
+ */
+impl LRUCache {
+    fn new(capacity: i32) -> Self {
+        let capacity = capacity.try_into().unwrap();
+        Self {
+            capacity,
+            cache: RefCell::new(HashMap::with_capacity(capacity)),
+            lru_order: RefCell::new(LinkedList::new()),
+        }
+    }
+
+    fn get(&self, key: i32) -> i32 {
+        match self.cache.borrow().get(&key) {
+            Some(&node) => {
+                // move accessed element to the back of the list
+                let node = unsafe { self.lru_order.borrow_mut().unlink_node(node) };
+                let node = unsafe { self.lru_order.borrow_mut().push_back_node(node) };
+
+                let (_, val) = unsafe { node.as_ref().elem };
+                val
+            }
+            None => -1,
+        }
+    }
+
+    fn put(&self, key: i32, value: i32) {
+        let mut lru_order = self.lru_order.borrow_mut();
+        let mut cache = self.cache.borrow_mut();
+
+        let node = lru_order.push_back((key, value));
+
+        if let Some(old_node) = cache.insert(key, node) {
+            lru_order.remove_node(old_node);
+        }
+
+        if self.capacity < lru_order.len() {
+            // evict least recently used item from the front of the list
+            if let Some((least_recently_used_key, _)) = lru_order.pop_front() {
+                cache.remove(&least_recently_used_key);
+            }
+        }
+    }
+}
+
 struct LinkedList<T> {
     head: Option<NonNull<Node<T>>>,
     tail: Option<NonNull<Node<T>>>,
@@ -117,62 +173,6 @@ impl<T> LinkedList<T> {
         let removed = unsafe { Box::from_raw(removed.as_ptr()) };
 
         removed.elem
-    }
-}
-
-type Key = i32;
-type Val = i32;
-
-pub struct LRUCache {
-    capacity: usize,
-    cache: RefCell<HashMap<Key, NonNull<Node<(Key, Val)>>>>,
-    lru_order: RefCell<LinkedList<(Key, Val)>>,
-}
-
-/**
- * `&self` means the method takes an immutable reference.
- * If you need a mutable reference, change it to `&mut self` instead.
- */
-impl LRUCache {
-    fn new(capacity: i32) -> Self {
-        let capacity = capacity.try_into().unwrap();
-        Self {
-            capacity,
-            cache: RefCell::new(HashMap::with_capacity(capacity)),
-            lru_order: RefCell::new(LinkedList::new()),
-        }
-    }
-
-    fn get(&self, key: i32) -> i32 {
-        match self.cache.borrow().get(&key) {
-            Some(&node) => {
-                // move accessed element to the back of the list
-                let node = unsafe { self.lru_order.borrow_mut().unlink_node(node) };
-                let node = unsafe { self.lru_order.borrow_mut().push_back_node(node) };
-
-                let (_, val) = unsafe { node.as_ref().elem };
-                val
-            }
-            None => -1,
-        }
-    }
-
-    fn put(&self, key: i32, value: i32) {
-        let mut lru_order = self.lru_order.borrow_mut();
-        let mut cache = self.cache.borrow_mut();
-
-        let node = lru_order.push_back((key, value));
-
-        if let Some(old_node) = cache.insert(key, node) {
-            lru_order.remove_node(old_node);
-        }
-
-        if self.capacity < lru_order.len() {
-            // evict least recently used item from the front of the list
-            if let Some((least_recently_used_key, _)) = lru_order.pop_front() {
-                cache.remove(&least_recently_used_key);
-            }
-        }
     }
 }
 
