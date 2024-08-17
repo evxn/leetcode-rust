@@ -31,8 +31,11 @@ impl LRUCache {
         match self.cache.borrow().get(&key) {
             Some(&node) => {
                 // move accessed element to the back of the list
-                let node = unsafe { self.lru_order.borrow_mut().unlink_node(node) };
-                let node = unsafe { self.lru_order.borrow_mut().push_back_node(node) };
+                let mut lru_order = self.lru_order.borrow_mut();
+                // SAFETY: node is a valid pointer to the elem in the list
+                let node = unsafe { lru_order.unlink_node(node) };
+                // SAFETY: node is a valid pointer to the elem not in the list
+                let node = unsafe { lru_order.push_back_node(node) };
 
                 let (_, val) = unsafe { node.as_ref().elem };
                 val
