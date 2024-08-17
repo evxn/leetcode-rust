@@ -144,9 +144,9 @@ impl<T> LinkedList<T> {
         self.pop_front_node().map(|node| node.elem)
     }
 
-    unsafe fn unlink_node(&mut self, mut node_ptr: NonNull<Node<T>>) -> NonNull<Node<T>> {
+    unsafe fn unlink_node(&mut self, mut node: NonNull<Node<T>>) -> NonNull<Node<T>> {
         {
-            let node = unsafe { node_ptr.as_mut() }; // this one is ours now, we can create an &mut.
+            let node = unsafe { node.as_mut() }; // this one is ours now, we can create an &mut.
 
             // Not creating new mutable (unique!) references overlapping `element`.
             match node.prev {
@@ -164,7 +164,7 @@ impl<T> LinkedList<T> {
             self.len -= 1;
         }
 
-        node_ptr
+        node
     }
 
     fn remove_node(&mut self, node: NonNull<Node<T>>) -> T {
