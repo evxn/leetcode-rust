@@ -1,8 +1,6 @@
-use std::{
-    collections::{HashMap, LinkedList as LL},
-    ptr::NonNull,
-};
+use std::{cell::RefCell, collections::HashMap, ptr::NonNull, rc::Rc};
 
+#[derive(Clone)]
 struct LinkedList<T> {
     head: Option<NonNull<Node<T>>>,
     tail: Option<NonNull<Node<T>>>,
@@ -35,10 +33,6 @@ impl<T: Clone> LinkedList<T> {
         }
     }
 
-    fn is_empty(&self) -> bool {
-        self.head.is_none()
-    }
-
     fn len(&self) -> usize {
         self.len
     }
@@ -51,7 +45,7 @@ impl<T: Clone> LinkedList<T> {
         unsafe { self.tail.as_ref().map(|node| &node.as_ref().elem) }
     }
 
-    unsafe fn push_back_node(&mut self, node: NonNull<Node<T>>) {
+    unsafe fn push_back_node(&mut self, node: NonNull<Node<T>>) -> NonNull<Node<T>> {
         // This method takes care not to create mutable references to whole nodes,
         // to maintain validity of aliasing pointers into `element`.
         unsafe {
@@ -68,16 +62,16 @@ impl<T: Clone> LinkedList<T> {
             self.tail = node;
             self.len += 1;
         }
+
+        node
     }
 
-    fn push_back(&mut self, elt: T) {
+    fn push_back(&mut self, elt: T) -> NonNull<Node<T>> {
         let node = Box::new(Node::new(elt));
         let node = Box::into_raw(node);
         let node_ptr = NonNull::new(node).unwrap();
-        // SAFETY: node_ptr is a unique pointer to a node we boxed with self.alloc and leaked
-        unsafe {
-            self.push_back_node(node_ptr);
-        }
+        // SAFETY: node_ptr is a unique pointer to a node we boxed and leaked
+        unsafe { self.push_back_node(node_ptr) }
     }
 
     fn pop_back_node(&mut self) -> Option<Box<Node<T>>> {
@@ -148,7 +142,7 @@ impl<T: Clone> LinkedList<T> {
         self.pop_front_node().map(|node| node.elem)
     }
 
-    unsafe fn unlink_node(&mut self, mut node_ptr: NonNull<Node<T>>) -> Box<Node<T>> {
+    unsafe fn unlink_node(&mut self, mut node_ptr: NonNull<Node<T>>) -> NonNull<Node<T>> {
         {
             let node = unsafe { node_ptr.as_mut() }; // this one is ours now, we can create an &mut.
 
@@ -168,11 +162,15 @@ impl<T: Clone> LinkedList<T> {
             self.len -= 1;
         }
 
-        unsafe { Box::from_raw(node_ptr.as_ptr()) }
+        node_ptr
     }
 
     fn remove_node(&mut self, node: NonNull<Node<T>>) -> T {
-        unsafe { self.unlink_node(node) }.elem
+        let removed = unsafe { self.unlink_node(node) };
+        // consume node memory
+        let removed = unsafe { Box::from_raw(removed.as_ptr()) };
+
+        removed.elem
     }
 }
 
@@ -181,7 +179,7 @@ type Val = i32;
 
 pub struct LRUCache {
     capacity: usize,
-    cache: HashMap<Key, Box<Node<(Key, Val)>>>,
+    cache: HashMap<Key, NonNull<Node<(Key, Val)>>>,
     lru_order: LinkedList<(Key, Val)>,
 }
 
@@ -191,14 +189,44 @@ pub struct LRUCache {
  */
 impl LRUCache {
     fn new(capacity: i32) -> Self {
-        todo!()
+        let capacity = capacity.try_into().unwrap();
+        Self {
+            capacity,
+            cache: HashMap::with_capacity(capacity),
+            lru_order: LinkedList::new(),
+        }
     }
 
-    fn get(&self, key: i32) -> i32 {
-        0
+    fn get(&mut self, key: i32) -> i32 {
+        match self.cache.get_mut(&key) {
+            Some(node) => {
+                // we got exclusive ref here;
+                let (_, val) = unsafe { node.as_ref().elem };
+
+                let mut lru_order = self.lru_order.clone();
+                let node = unsafe { lru_order.unlink_node(node.clone()) };
+                let _node = unsafe { lru_order.push_back_node(node) };
+                self.lru_order = lru_order;
+
+                val
+            }
+            None => -1,
+        }
     }
 
-    fn put(&self, key: i32, value: i32) {}
+    fn put(&mut self, key: i32, value: i32) {
+        let node = self.lru_order.push_back((key, value));
+
+        if let Some(old_node) = self.cache.insert(key, node) {
+            self.lru_order.remove_node(old_node);
+        }
+
+        if self.capacity < self.lru_order.len() {
+            if let Some((least_recently_used_key, _)) = self.lru_order.pop_front() {
+                self.cache.remove(&least_recently_used_key);
+            }
+        }
+    }
 }
 
 /**
@@ -217,7 +245,7 @@ mod tests {
         assert_eq!(list.len, 0);
         list.push_back(0);
         list.push_back(1);
-        list.push_back(2);
+        let tail = list.push_back(2);
         assert_eq!(list.len, 3);
         let zero = list.pop_front().unwrap();
         assert_eq!(zero, 0);
@@ -225,7 +253,6 @@ mod tests {
         let one = list.pop_front().unwrap();
         assert_eq!(one, 1);
         assert_eq!(list.len, 1);
-        let tail = list.tail.unwrap();
         let two = list.remove_node(tail);
         assert_eq!(two, 2);
         assert_eq!(list.len, 0);
@@ -236,9 +263,8 @@ mod tests {
         let mut list = LinkedList::new();
         assert_eq!(list.len, 0);
         list.push_back(0);
-        list.push_back(1);
+        let tail = list.push_back(1);
         assert_eq!(list.len, 2);
-        let tail = list.tail.unwrap();
         let removed = list.remove_node(tail);
         assert_eq!(removed, 1);
         assert_eq!(list.len, 1);
@@ -249,12 +275,9 @@ mod tests {
         let mut list = LinkedList::new();
         assert_eq!(list.len, 0);
         list.push_back(0);
-        list.push_back(1);
+        let head_next = list.push_back(1);
         list.push_back(2);
         assert_eq!(list.len, 3);
-        let head_next = unsafe { Box::from_raw(list.head.unwrap().as_ptr()) }
-            .next
-            .unwrap();
         let removed = list.remove_node(head_next);
         assert_eq!(removed, 1);
         assert_eq!(list.len, 2);
@@ -262,15 +285,15 @@ mod tests {
 
     #[test]
     fn example1() {
-        // let lru_cache = LRUCache::new(2);
-        // lru_cache.put(1, 1); // cache is {1=1}
-        // lru_cache.put(2, 2); // cache is {1=1, 2=2}
-        // assert_eq!(lru_cache.get(1), 1);
-        // lru_cache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
-        // assert_eq!(lru_cache.get(2), -1);
-        // lru_cache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
-        // assert_eq!(lru_cache.get(1), -1);
-        // assert_eq!(lru_cache.get(3), 3);
-        // assert_eq!(lru_cache.get(4), 4);
+        let mut lru_cache = LRUCache::new(2);
+        lru_cache.put(1, 1); // cache is {1=1}
+        lru_cache.put(2, 2); // cache is {1=1, 2=2}
+        assert_eq!(lru_cache.get(1), 1);
+        lru_cache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+        assert_eq!(lru_cache.get(2), -1);
+        lru_cache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+        assert_eq!(lru_cache.get(1), -1);
+        assert_eq!(lru_cache.get(3), 3);
+        assert_eq!(lru_cache.get(4), 4);
     }
 }
