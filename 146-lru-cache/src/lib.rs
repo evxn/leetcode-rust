@@ -169,7 +169,7 @@ impl<T> LinkedList<T> {
 
     fn remove_node(&mut self, node: NonNull<Node<T>>) -> T {
         let removed = unsafe { self.unlink_node(node) };
-        // consume node memory
+        // reclaim node memory
         let removed = unsafe { Box::from_raw(removed.as_ptr()) };
 
         removed.elem
@@ -231,7 +231,7 @@ mod tests {
     }
 
     #[test]
-    fn example1() {
+    fn lru_cache_example1() {
         let lru_cache = LRUCache::new(2);
         lru_cache.put(1, 1); // cache is {1=1}
         lru_cache.put(2, 2); // cache is {1=1, 2=2}
