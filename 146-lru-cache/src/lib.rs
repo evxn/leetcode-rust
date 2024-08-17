@@ -16,6 +16,7 @@ pub struct LRUCache {
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl LRUCache {
+    // memory: O(capacity)
     fn new(capacity: i32) -> Self {
         let capacity = capacity.try_into().unwrap();
         Self {
@@ -25,6 +26,7 @@ impl LRUCache {
         }
     }
 
+    // time: O(1)
     fn get(&self, key: i32) -> i32 {
         match self.cache.borrow().get(&key) {
             Some(&node) => {
@@ -39,6 +41,7 @@ impl LRUCache {
         }
     }
 
+    // time: O(1)
     fn put(&self, key: i32, value: i32) {
         let mut lru_order = self.lru_order.borrow_mut();
         let mut cache = self.cache.borrow_mut();
