@@ -48,15 +48,15 @@ impl LRUCache {
 
         let node = lru_order.push_back((key, value));
 
+        if let Some(old_node) = cache.insert(key, node) {
+            lru_order.remove_node(old_node);
+        }
+
         if lru_order.len() > self.capacity {
             // evict least recently used item from the front of the list
             if let Some((least_recently_used_key, _)) = lru_order.pop_front() {
                 cache.remove(&least_recently_used_key);
             }
-        }
-
-        if let Some(old_node) = cache.insert(key, node) {
-            lru_order.remove_node(old_node);
         }
     }
 }
@@ -255,5 +255,17 @@ mod tests {
         lru_cache.put(3, 2); // LRU key was 2, evicts key 2, cache is {3=2}
         assert_eq!(lru_cache.get(2), -1);
         assert_eq!(lru_cache.get(3), 2);
+    }
+
+    #[test]
+    fn lru_cache_example3() {
+        let lru_cache = LRUCache::new(2);
+        assert_eq!(lru_cache.get(2), -1);
+        lru_cache.put(2, 6); // cache is {2=6}
+        assert_eq!(lru_cache.get(1), -1);
+        lru_cache.put(1, 5); // cache is {2=6, 1=5}
+        lru_cache.put(1, 2); // cache is {2=6, 1=2}
+        assert_eq!(lru_cache.get(1), 2);
+        assert_eq!(lru_cache.get(2), 6);
     }
 }
