@@ -27,6 +27,7 @@ To test an individual solution go to the corresponding folder and execute the sa
 | [3. Longest Substring Without Repeating Characters](3-longest-substring-without-repeating-characters/src/lib.rs) | String                     |
 | [94. Binary Tree Inorder Traversal](94-binary-tree-inorder-traversal/src/lib.rs)                                 | BinaryTree                 |
 | [226. Invert Binary Tree](226-invert-binary-tree/src/lib.rs)                                                     | BinaryTree                 |
+| [104. Maximum Depth of Binary Tree](104-maximum-depth-of-binary-tree/src/lib.rs)                                 | BinaryTree                 |
 | [200. Number of Islands](200-number-of-islands/src/lib.rs)                                                       | Graph                      |
 | [15. 3Sum](15-three-sum/src/lib.rs)                                                                              | Array                      |
 | [38. Count and Say](38-count-and-say/src/lib.rs)                                                                 | Array                      |

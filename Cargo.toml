@@ -20,6 +20,7 @@ members = [
   "42-trapping-rain-water",
   "146-lru-cache",
   "226-invert-binary-tree",
+  "104-maximum-depth-of-binary-tree"
 ]
 
 [workspace.package]
