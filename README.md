@@ -10,7 +10,7 @@ Each solution is a `lib` crate. To test all the solutions at once run this shell
 $ cargo test
 ```
 
-To test an individual solution go to its corresponding folder and execute the same `cargo test` command.
+To test an individual solution go to the corresponding folder and execute the same `cargo test` command.
 
 # Table of Contents
 
