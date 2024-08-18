@@ -19,6 +19,7 @@ members = [
   "128-longest-consecutive-sequence",
   "42-trapping-rain-water",
   "146-lru-cache",
+  "226-invert-binary-tree",
 ]
 
 [workspace.package]
