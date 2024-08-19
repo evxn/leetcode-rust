@@ -23,6 +23,7 @@ members = [
   "104-maximum-depth-of-binary-tree",
   "543-diameter-of-binary-tree",
   "110-balanced-binary-tree",
+  "100-same-tree",
 ]
 
 [workspace.package]

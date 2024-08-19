@@ -30,6 +30,7 @@ To test an individual solution go to the corresponding folder and execute the sa
 | [104. Maximum Depth of Binary Tree](104-maximum-depth-of-binary-tree/src/lib.rs)                                 | BinaryTree                 |
 | [110. Balanced Binary Tree](110-balanced-binary-tree/src/lib.rs)                                                 | BinaryTree                 |
 | [543. Diameter of Binary Tree](543-diameter-of-binary-tree/src/lib.rs)                                           | BinaryTree                 |
+| [100. Same Tree](100-same-tree/src/lib.rs)                                                                       | BinaryTree                 |
 | [200. Number of Islands](200-number-of-islands/src/lib.rs)                                                       | Graph                      |
 | [15. 3Sum](15-three-sum/src/lib.rs)                                                                              | Array                      |
 | [38. Count and Say](38-count-and-say/src/lib.rs)                                                                 | Array                      |
