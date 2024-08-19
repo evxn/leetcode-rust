@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/diameter-of-binary-tree
 
 use std::cell::RefCell;
+use std::collections::HashMap;
 use std::rc::Rc;
 
 // Definition for a binary tree node.
@@ -27,8 +28,6 @@ pub struct Solution;
 impl Solution {
     // Time: O(n)
     pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        use std::collections::HashMap;
-
         let mut max_diameter = 0;
         // Memory: O(n)
         let mut stack = Vec::new();
@@ -54,10 +53,16 @@ impl Solution {
             } else {
                 // childred were processed by now so we can check for pre-computed heights
                 let left_height = node.borrow().left.as_ref().map_or(0, |left_node| {
-                    *node_to_height.get(&Rc::as_ptr(left_node)).unwrap_or(&0)
+                    node_to_height
+                        .get(&Rc::as_ptr(left_node))
+                        .copied()
+                        .unwrap_or(0)
                 });
                 let right_height = node.borrow().right.as_ref().map_or(0, |right_node| {
-                    *node_to_height.get(&Rc::as_ptr(right_node)).unwrap_or(&0)
+                    node_to_height
+                        .get(&Rc::as_ptr(right_node))
+                        .copied()
+                        .unwrap_or(0)
                 });
 
                 let node_height = 1 + left_height.max(right_height);
