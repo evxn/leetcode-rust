@@ -22,6 +22,7 @@ members = [
   "226-invert-binary-tree",
   "104-maximum-depth-of-binary-tree",
   "543-diameter-of-binary-tree",
+  "110-balanced-binary-tree",
 ]
 
 [workspace.package]
