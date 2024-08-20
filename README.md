@@ -32,6 +32,7 @@ To test an individual solution go to the corresponding folder and execute the sa
 | [543. Diameter of Binary Tree](543-diameter-of-binary-tree/src/lib.rs)                                           | BinaryTree                 |
 | [100. Same Tree](100-same-tree/src/lib.rs)                                                                       | BinaryTree                 |
 | [572. Subtree of Another Tree](572-subtree-of-another-tree/src/lib.rs)                                           | BinaryTree                 |
+| [236. Lowest Common Ancestor of a Binary Tree](236-lowest-common-ancestor-of-a-binary-tree/src/lib.rs)           | BinaryTree                 |
 | [235. Lowest Common Ancestor of a Binary Search Tree](235-lowest-common-ancestor-of-a-binary-search-tree/src/lib.rs) | BinarySearchTree       |
 | [200. Number of Islands](200-number-of-islands/src/lib.rs)                                                       | Graph                      |
 | [15. 3Sum](15-three-sum/src/lib.rs)                                                                              | Array                      |
