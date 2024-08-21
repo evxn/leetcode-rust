@@ -27,6 +27,7 @@ members = [
   "572-subtree-of-another-tree",
   "235-lowest-common-ancestor-of-a-binary-search-tree",
   "236-lowest-common-ancestor-of-a-binary-tree",
+  "102-binary-tree-level-order-traversal",
 ]
 
 [workspace.package]
