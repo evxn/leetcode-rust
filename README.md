@@ -37,6 +37,7 @@ To test an individual solution go to the corresponding folder and execute the sa
 | [1448. Count Good Nodes in Binary Tree](1448-count-good-nodes-in-binary-tree/src/lib.rs)                         | BinaryTree                 |
 | [236. Lowest Common Ancestor of a Binary Tree](236-lowest-common-ancestor-of-a-binary-tree/src/lib.rs)           | BinaryTree                 |
 | [235. Lowest Common Ancestor of a Binary Search Tree](235-lowest-common-ancestor-of-a-binary-search-tree/src/lib.rs) | BinarySearchTree       |
+| [98. Validate Binary Search Tree](98-validate-binary-search-tree/src/lib.rs)                                     | BinarySearchTree           |
 | [200. Number of Islands](200-number-of-islands/src/lib.rs)                                                       | Graph                      |
 | [15. 3Sum](15-three-sum/src/lib.rs)                                                                              | Array                      |
 | [38. Count and Say](38-count-and-say/src/lib.rs)                                                                 | Array                      |

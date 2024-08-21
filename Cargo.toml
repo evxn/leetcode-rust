@@ -30,6 +30,7 @@ members = [
   "102-binary-tree-level-order-traversal",
   "199-binary-tree-right-side-view",
   "1448-count-good-nodes-in-binary-tree",
+  "98-validate-binary-search-tree",
 ]
 
 [workspace.package]
