@@ -38,26 +38,22 @@ impl Solution {
     #[inline]
     fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut result = Vec::new();
+        let mut stack = vec![(root, false)];
 
-        if let Some(root) = root {
-            let mut stack = vec![root];
+        while let Some((current_ptr, is_visited)) = stack.pop() {
+            if let Some(current) = current_ptr {
+                if !is_visited {
+                    let left = current.borrow_mut().left.take();
+                    let right = current.borrow_mut().right.take();
 
-            while let Some(current) = stack.pop() {
-                let left = current.borrow_mut().left.take();
-                let right = current.borrow_mut().right.take();
-
-                if left.is_none() {
+                    stack.extend_from_slice(&[
+                        (right, false),
+                        (Some(current), true),
+                        (left, false),
+                    ]);
+                } else {
                     result.push(current.borrow().val);
                 }
-
-                let traverse_later = &mut match (left, right) {
-                    (Some(left), Some(right)) => vec![right, current, left],
-                    (Some(left), None) => vec![current, left],
-                    (None, Some(right)) => vec![right],
-                    (None, None) => vec![],
-                };
-
-                stack.append(traverse_later);
             }
         }
 
