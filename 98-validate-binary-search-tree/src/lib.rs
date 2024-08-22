@@ -30,7 +30,7 @@ impl Solution {
         Solution::inorder_traversal(root)
             .windows(2)
             .map(|window| (window[0], window[1]))
-            .all(|(prev, next)| prev < next)
+            .all(|(prev, curr)| prev < curr)
     }
 
     // fn impl copied from ../94-binary-tree-inorder-traversal/src/lib.rs
