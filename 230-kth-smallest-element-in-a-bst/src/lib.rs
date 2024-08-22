@@ -49,7 +49,7 @@ pub struct Solution;
 /// to figure out the next largest node to the deleted node
 /// which may take O(n) time.
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {
         Solution::inorder_traversal(root)
             .into_iter()
@@ -58,7 +58,7 @@ impl Solution {
     }
 
     // fn impl copied from ../94-binary-tree-inorder-traversal/src/lib.rs
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     #[inline]
     fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut result = Vec::new();

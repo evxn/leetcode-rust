@@ -26,7 +26,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
         let mut is_balanced = true;
         let mut node_to_height: HashMap<_, i32> = HashMap::new();

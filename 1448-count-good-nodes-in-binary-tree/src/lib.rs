@@ -25,7 +25,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn good_nodes(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut good_counter = 0;
 

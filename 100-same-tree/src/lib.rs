@@ -25,7 +25,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn is_same_tree(
         p: Option<Rc<RefCell<TreeNode>>>,
         q: Option<Rc<RefCell<TreeNode>>>,

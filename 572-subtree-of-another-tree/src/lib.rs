@@ -25,7 +25,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n²), Memory O(n)
+    // Time: O(n²), Memory: O(n)
     pub fn is_subtree(
         root: Option<Rc<RefCell<TreeNode>>>,
         sub_root: Option<Rc<RefCell<TreeNode>>>,
@@ -47,7 +47,7 @@ impl Solution {
     }
 
     // fn impl copied from ../100-same-tree/src/lib.rs
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     #[inline]
     fn is_same_tree(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
         let mut is_same = true;

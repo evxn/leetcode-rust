@@ -25,7 +25,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
         Solution::inorder_traversal(root)
             .windows(2)
@@ -34,7 +34,7 @@ impl Solution {
     }
 
     // fn impl copied from ../94-binary-tree-inorder-traversal/src/lib.rs
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     #[inline]
     fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut result = Vec::new();

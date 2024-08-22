@@ -26,7 +26,7 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    // Time: O(n), Memory O(n)
+    // Time: O(n), Memory: O(n)
     pub fn lowest_common_ancestor(
         root: Option<Rc<RefCell<TreeNode>>>,
         p: Option<Rc<RefCell<TreeNode>>>,
