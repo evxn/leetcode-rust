@@ -31,6 +31,7 @@ members = [
   "199-binary-tree-right-side-view",
   "1448-count-good-nodes-in-binary-tree",
   "98-validate-binary-search-tree",
+  "230-kth-smallest-element-in-a-bst",
 ]
 
 [workspace.package]

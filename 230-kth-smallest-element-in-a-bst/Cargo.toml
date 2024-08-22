@@ -1,0 +1,11 @@
+[package]
+name = "kth_smallest_element_in_a_bst"
+version = "0.1.0"
+edition = "2021"
+license-file.workspace = true
+authors.workspace = true
+
+[lib]
+doctest = false
+
+[dependencies]
