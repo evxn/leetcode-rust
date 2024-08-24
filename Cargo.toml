@@ -32,6 +32,7 @@ members = [
   "1448-count-good-nodes-in-binary-tree",
   "98-validate-binary-search-tree",
   "230-kth-smallest-element-in-a-bst",
+  "105-construct-binary-tree-from-preorder-and-inorder-traversal",
 ]
 
 [workspace.package]

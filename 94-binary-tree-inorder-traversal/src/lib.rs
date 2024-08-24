@@ -27,6 +27,7 @@ pub struct Solution;
 impl Solution {
     // Time: O(n), Memory: O(n)
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        // TODO make iterator
         let mut result = Vec::new();
         let mut stack = vec![(root, false)];
 
