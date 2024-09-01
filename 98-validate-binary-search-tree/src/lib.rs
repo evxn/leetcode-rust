@@ -27,37 +27,54 @@ pub struct Solution;
 impl Solution {
     // Time: O(n), Memory: O(n)
     pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        Solution::inorder_traversal(root)
-            .windows(2)
-            .map(|window| (window[0], window[1]))
-            .all(|(prev, curr)| prev < curr)
-    }
+        // inorder traversal iter is copied from ../94-binary-tree-inorder-traversal/src/lib.rs
+        struct InorderTreeIter {
+            stack: Vec<(Option<Rc<RefCell<TreeNode>>>, bool)>,
+        }
 
-    // fn impl copied from ../94-binary-tree-inorder-traversal/src/lib.rs
-    // Time: O(n), Memory: O(n)
-    #[inline]
-    fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut result = Vec::new();
-        let mut stack = vec![(root, false)];
-
-        while let Some((current_ptr, is_visited)) = stack.pop() {
-            if let Some(current) = current_ptr {
-                if !is_visited {
-                    let left = current.borrow_mut().left.take();
-                    let right = current.borrow_mut().right.take();
-
-                    stack.extend_from_slice(&[
-                        (right, false),
-                        (Some(current), true),
-                        (left, false),
-                    ]);
-                } else {
-                    result.push(current.borrow().val);
-                }
+        impl InorderTreeIter {
+            fn new(root: Option<Rc<RefCell<TreeNode>>>) -> Self {
+                let stack = vec![(root, false)];
+                Self { stack }
             }
         }
 
-        result
+        impl Iterator for InorderTreeIter {
+            type Item = Rc<RefCell<TreeNode>>;
+
+            fn next(&mut self) -> Option<Self::Item> {
+                while let Some((current_ptr, is_visited)) = self.stack.pop() {
+                    if let Some(current) = current_ptr {
+                        if !is_visited {
+                            let left = current.borrow().left.clone();
+                            let right = current.borrow().right.clone();
+
+                            self.stack.extend_from_slice(&[
+                                (right, false),
+                                (Some(current), true),
+                                (left, false),
+                            ]);
+                        } else {
+                            return Some(current);
+                        }
+                    }
+                }
+
+                None
+            }
+        }
+
+        let mut values_inorder_iter = InorderTreeIter::new(root).map(|node| node.borrow().val);
+
+        let first = values_inorder_iter.next();
+
+        let mut values_inorder_pairwise_iter =
+            values_inorder_iter.scan(first, |last_seen, curr| {
+                let prev = last_seen.replace(curr)?;
+                Some((prev, curr))
+            });
+
+        values_inorder_pairwise_iter.all(|(prev, curr)| prev < curr)
     }
 }
 

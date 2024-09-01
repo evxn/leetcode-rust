@@ -51,37 +51,47 @@ pub struct Solution;
 impl Solution {
     // Time: O(n), Memory: O(n)
     pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {
-        Solution::inorder_traversal(root)
-            .into_iter()
-            .nth((k - 1) as _)
-            .unwrap()
-    }
+        // inorder traversal iter is copied from ../94-binary-tree-inorder-traversal/src/lib.rs
+        struct InorderTreeIter {
+            stack: Vec<(Option<Rc<RefCell<TreeNode>>>, bool)>,
+        }
 
-    // fn impl copied from ../94-binary-tree-inorder-traversal/src/lib.rs
-    // Time: O(n), Memory: O(n)
-    #[inline]
-    fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut result = Vec::new();
-        let mut stack = vec![(root, false)];
-
-        while let Some((current_ptr, is_visited)) = stack.pop() {
-            if let Some(current) = current_ptr {
-                if !is_visited {
-                    let left = current.borrow_mut().left.take();
-                    let right = current.borrow_mut().right.take();
-
-                    stack.extend_from_slice(&[
-                        (right, false),
-                        (Some(current), true),
-                        (left, false),
-                    ]);
-                } else {
-                    result.push(current.borrow().val);
-                }
+        impl InorderTreeIter {
+            fn new(root: Option<Rc<RefCell<TreeNode>>>) -> Self {
+                let stack = vec![(root, false)];
+                Self { stack }
             }
         }
 
-        result
+        impl Iterator for InorderTreeIter {
+            type Item = Rc<RefCell<TreeNode>>;
+
+            fn next(&mut self) -> Option<Self::Item> {
+                while let Some((current_ptr, is_visited)) = self.stack.pop() {
+                    if let Some(current) = current_ptr {
+                        if !is_visited {
+                            let left = current.borrow().left.clone();
+                            let right = current.borrow().right.clone();
+
+                            self.stack.extend_from_slice(&[
+                                (right, false),
+                                (Some(current), true),
+                                (left, false),
+                            ]);
+                        } else {
+                            return Some(current);
+                        }
+                    }
+                }
+
+                None
+            }
+        }
+
+        InorderTreeIter::new(root)
+            .map(|node| node.borrow().val)
+            .nth((k - 1) as _)
+            .unwrap()
     }
 }
 
